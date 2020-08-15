@@ -12,7 +12,25 @@ function checkActionsData(){
         next();
     }
 }
+function validateActionId(){
+    return(req, res, next) => {
+        console.log("this got called")
+        actions.findById(req.params.id)
+            .then((action) => {
+                if(action){
+                    req.action= action;
+                    next();
+                } else {
+                    res.status(404).json({
+                        message: "Action not found"
+                    })
+                }
+            })
+            .catch(next)
+    }
+}
 
 module.exports = {
-   checkActionsData
+   checkActionsData,
+   validateActionId
 }
